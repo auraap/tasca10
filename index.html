@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css"/>
+    <script src="funcions.js"></script>
+    <script src=""https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js""></script>
+    <title>Document</title>
+</head>
+<body>
+    <div class = "container">
+        <form action="/action_page.php" id="formulari">
+            <div class="form-group">
+                <label for="dni">DNI:</label><!--s'ha de validar que la lletra del dni sigui correcta-->
+                <input type="text" class="form-control" id="dni" required>
+            </div>
+            <div class="form-group">
+                <label for="nom">Nom:</label>
+                <input type="text" class="form-control" id="nom" required>
+            </div>
+            <div class="form-group">
+                <label for="llinatge1">Primer llinatge:</label>
+                <input type="text" class="form-control" id="llinatge1" required>
+            </div>
+            <div class="form-group">
+                <label for="llinatges2">Segon llinatge:</label>
+                <input type="text" class="form-control" id="llinatge2" required>
+            </div>
+            <div class="form-group">
+                <label for="correu">Correu electrònic:</label>
+                <input type="email" class="form-control" id="correu" required> 
+            </div>  
+            <div class="form-group">
+                <label for="nota">Nota:</label>
+                <input type="number" class="form-control" id="nota" min="0" max="10"> 
+            </div>  
+            <div>
+                <button type="submit" class="btn btn-default" id="submit">Afegir Alumne</button>
+            </div>  
+        </form>
+        <table class="table table-striped" id="tabla">
+            <thead>
+                <tr>
+                    <th>DNI</th>
+                    <th>Nom</th>
+                    <th>Primer llinatge</th>
+                    <th>Segon llinatge</th>
+                    <th>Correu electrònic</th>
+                    <th>Nota</th>
+                    <th></th> <!--Aquesta columna s'utilitzarà per afegir el botó de borrar fila-->
+                </tr>
+            </thead>
+            <tbody id="llistaAlumnes">
+            </tbody>
+        </table>
+    </div>
+    <script>
+        //funcio que afegeix files a la taula
+        $(document).ready(function(){
+            $("#formulari").submit(function(dades){
+                //en primer lloc comprovarem si el dni introduit és vàlid amb la següent funció:
+                if(validarDni($("#dni").val())){
+                    var afegirFila = $("<tr><td>"+$('#dni').val()
+                                     + "</td><td>"+$('#nom').val()
+                                     + "</td><td>"+$('#llinatge1').val()
+                                     + "</td><td>"+$('#llinatge2').val()
+                                     + "</td><td>"+$('#correu').val()
+                                     + "</td><td>"+$('#nota').val()
+                                     + "</td><td><button id='esborrar'><i class='fas fa-trash-alt'>trash</i></button></td></tr>");
+                        
+                        //si el dni és vàlid necessitarem el mètode appendTo per afegir una nova fila amb les dades introduides
+                        afegirFila.appendTo("#llistaAlumnes"); 
+                            $("#formulari")[0].reset();
+                                } else {
+                                    alert("El dni introduit no és vàlid");
+                                }
+                                    return false;
+            }); 
+                        //funcio per borrar les files de la taula
+                            $("#tabla").on('click', '#esborrar', function(){
+                                $(this).closest('tr').remove();
+                            });
+        });
+    </script>
+</body>
+</html>
+                        
